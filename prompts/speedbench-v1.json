@@ -1,0 +1,1609 @@
+{
+ "description": "Original prompts for decode-speed A/B testing; long-context documents are generated from fixed seeds by tools/build_prompts.py. No third-party text.",
+ "prompts": [
+  {
+   "category": "prose",
+   "id": "prose-11",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a product announcement for a modular bicycle trailer that converts into a hand cart.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "code",
+   "id": "code-09",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a bash script that finds duplicate files under a directory by size and SHA-256, and prints groups.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "structured",
+   "id": "structured-09",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a markdown project plan for migrating a website to a new host: phases, tasks, owners, dates and risks as tables.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-01",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "You are a careful coding and research agent. Use the tools when needed. When you have enough information, give a complete, well-structured answer.",
+     "role": "system"
+    },
+    {
+     "content": "The test suite of my invoice package fails. Find the cause and fix it.",
+     "role": "user"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"command\": \"pytest -q\"}",
+        "name": "run_shell"
+       },
+       "id": "call_1",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "F.\n=== FAILURES ===\n___ test_total_with_discount ___\n    assert invoice.total() == 90.0\nE   assert 100.0 == 90.0\ntests/test_invoice.py:14: AssertionError\n1 failed, 1 passed in 0.08s",
+     "role": "tool",
+     "tool_call_id": "call_1"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"path\": \"invoice/core.py\"}",
+        "name": "read_file"
+       },
+       "id": "call_2",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "class Invoice:\n    def __init__(self, items, discount=0.0):\n        self.items = items\n        self.discount = discount\n\n    def subtotal(self):\n        return sum(q * p for q, p in self.items)\n\n    def total(self):\n        total = self.subtotal()\n        if self.discount > 0:\n            total - total * self.discount\n        return round(total, 2)\n",
+     "role": "tool",
+     "tool_call_id": "call_2"
+    },
+    {
+     "content": "Explain the bug, write the corrected file with the write_file tool, and add one more test.",
+     "role": "user"
+    }
+   ],
+   "note": "tool-call history",
+   "quick": true,
+   "tools": [
+    {
+     "function": {
+      "description": "Read a text file from the repository.",
+      "name": "read_file",
+      "parameters": {
+       "properties": {
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Overwrite a file with new content.",
+      "name": "write_file",
+      "parameters": {
+       "properties": {
+        "content": {
+         "type": "string"
+        },
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path",
+        "content"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Run a shell command and return output.",
+      "name": "run_shell",
+      "parameters": {
+       "properties": {
+        "command": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "command"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Search the web; returns snippets.",
+      "name": "search",
+      "parameters": {
+       "properties": {
+        "query": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "query"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    }
+   ]
+  },
+  {
+   "category": "longctx",
+   "id": "longctx-07",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "A chronicle (original, fictional) of Leon and Bruno, told in short entries.\n\nDay 1. At the orchard, Leon and Bruno wrote a letter they never sent. The wind changed.\nDay 2. At the orchard, Leon and Bruno lost the key and found it in a loaf of bread. A gull followed them.\nDay 3. At the salt marsh, Leon and Bruno traded a compass for a lantern. The lantern flickered.\nDay 4. At the night market, Leon and Bruno argued about whether to turn back. The lantern flickered.\nDay 5. At the old ferry dock, Leon and Bruno watched the tide uncover a stone stair. The wind changed.\nDay 6. At the night market, Leon and Bruno found a map drawn on the back of a recipe. It rained until dusk.\nDay 7. At the salt marsh, Leon and Bruno met a fisherman who knew their grandfather. A gull followed them.\nDay 8. At the salt marsh, Leon and Bruno found a map drawn on the back of a recipe. It rained until dusk.\nDay 9. At the night market, Leon and Bruno heard bells where no church stood. The wind changed.\nDay 10. At the frozen canal, Leon and Bruno found a map drawn on the back of a recipe. They laughed about it later.\nDay 11. At the frozen canal, Leon and Bruno wrote a letter they never sent. It rained until dusk.\nDay 12. At the lighthouse, Leon and Bruno watched the tide uncover a stone stair. The wind changed.\nDay 13. At the frozen canal, Leon and Bruno argued about whether to turn back. A gull followed them.\nDay 14. At the railway bridge, Leon and Bruno met a fisherman who knew their grandfather. The lantern flickered.\nDay 15. At the frozen canal, Leon and Bruno heard bells where no church stood. Nobody spoke for an hour.\nDay 16. At the old ferry dock, Leon and Bruno watched the tide uncover a stone stair. Nobody spoke for an hour.\nDay 17. At the library tower, Leon and Bruno argued about whether to turn back. It rained until dusk.\nDay 18. At the old ferry dock, Leon and Bruno found a map drawn on the back of a recipe. The wind changed.\nDay 19. At the salt marsh, Leon and Bruno wrote a letter they never sent. It rained until dusk.\nDay 20. At the lighthouse, Leon and Bruno argued about whether to turn back. Nobody spoke for an hour.\nDay 21. At the salt marsh, Leon and Bruno watched the tide uncover a stone stair. The wind changed.\nDay 22. At the salt marsh, Leon and Bruno wrote a letter they never sent. They laughed about it later.\nDay 23. At the railway bridge, Leon and Bruno heard bells where no church stood. It rained until dusk.\nDay 24. At the frozen canal, Leon and Bruno found a map drawn on the back of a recipe. Nobody spoke for an hour.\nDay 25. At the lighthouse, Leon and Bruno watched the tide uncover a stone stair. They laughed about it later.\nDay 26. At the library tower, Leon and Bruno found a map drawn on the back of a recipe. They laughed about it later.\nDay 27. At the railway bridge, Leon and Bruno traded a compass for a lantern. The lantern flickered.\nDay 28. At the old ferry dock, Leon and Bruno wrote a letter they never sent. The wind changed.\nDay 29. At the lighthouse, Leon and Bruno wrote a letter they never sent. The wind changed.\nDay 30. At the orchard, Leon and Bruno met a fisherman who knew their grandfather. The lantern flickered.\nDay 31. At the railway bridge, Leon and Bruno argued about whether to turn back. It rained until dusk.\nDay 32. At the night market, Leon and Bruno argued about whether to turn back. The wind changed.\nDay 33. At the old ferry dock, Leon and Bruno argued about whether to turn back. They laughed about it later.\nDay 34. At the old ferry dock, Leon and Bruno met a fisherman who knew their grandfather. The wind changed.\nDay 35. At the salt marsh, Leon and Bruno watched the tide uncover a stone stair. The lantern flickered.\nDay 36. At the library tower, Leon and Bruno argued about whether to turn back. A gull followed them.\nDay 37. At the lighthouse, Leon and Bruno met a fisherman who knew their grandfather. The wind changed.\nDay 38. At the library tower, Leon and Bruno wrote a letter they never sent. It rained until dusk.\nDay 39. At the salt marsh, Leon and Bruno found a map drawn on the back of a recipe. Nobody spoke for an hour.\nDay 40. At the frozen canal, Leon and Bruno found a map drawn on the back of a recipe. It rained until dusk.\nDay 41. At the night market, Leon and Bruno watched the tide uncover a stone stair. It rained until dusk.\nDay 42. At the frozen canal, Leon and Bruno traded a compass for a lantern. Nobody spoke for an hour.\nDay 43. At the salt marsh, Leon and Bruno wrote a letter they never sent. The wind changed.\nDay 44. At the night market, Leon and Bruno argued about whether to turn back. The wind changed.\nDay 45. At the railway bridge, Leon and Bruno wrote a letter they never sent. They laughed about it later.\nDay 46. At the library tower, Leon and Bruno met a fisherman who knew their grandfather. Nobody spoke for an hour.\nDay 47. At the railway bridge, Leon and Bruno lost the key and found it in a loaf of bread. A gull followed them.\nDay 48. At the salt marsh, Leon and Bruno wrote a letter they never sent. The wind changed.\nDay 49. At the old ferry dock, Leon and Bruno traded a compass for a lantern. It rained until dusk.\nDay 50. At the orchard, Leon and Bruno argued about whether to turn back. They laughed about it later.\nDay 51. At the library tower, Leon and Bruno found a map drawn on the back of a recipe. A gull followed them.\nDay 52. At the frozen canal, Leon and Bruno lost the key and found it in a loaf of bread. The wind changed.\nDay 53. At the night market, Leon and Bruno lost the key and found it in a loaf of bread. It rained until dusk.\nDay 54. At the orchard, Leon and Bruno heard bells where no church stood. Nobody spoke for an hour.\nDay 55. At the lighthouse, Leon and Bruno traded a compass for a lantern. It rained until dusk.\n\n\n---\n\nContinue this chronicle for another ten days in the same style, then write a short ending.",
+     "role": "user"
+    }
+   ],
+   "note": "generated document 'story', 5785 chars",
+   "quick": true
+  },
+  {
+   "category": "multilingual",
+   "id": "multilingual-03",
+   "lang": "fr",
+   "messages": [
+    {
+     "content": "Rédige un article de blog sur les avantages et les inconvénients du vélo électrique en ville.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "prose",
+   "id": "prose-04",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Describe a summer thunderstorm rolling over a wheat field, as experienced by the farmer who owns it.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "code",
+   "id": "code-06",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Refactor this Python function for readability and explain each change:\n\ndef p(d):\n    r=[]\n    for k in d:\n        if d[k]!=None and d[k]!='' and type(d[k])==str:\n            r.append(k+'='+d[k].strip())\n        elif type(d[k])==int:\n            r.append(k+'='+str(d[k]))\n    return '&'.join(r)",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "structured",
+   "id": "structured-11",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a GraphQL schema for a community library: books, copies, members, loans, holds, with queries and mutations.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-06",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "You are a careful coding and research agent. Use the tools when needed. When you have enough information, give a complete, well-structured answer.",
+     "role": "system"
+    },
+    {
+     "content": "Refactor the utils module of my project into smaller modules.",
+     "role": "user"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"command\": \"ls -R src && wc -l src/utils.py\"}",
+        "name": "run_shell"
+       },
+       "id": "call_1",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "src:\n__init__.py  app.py  utils.py\n1180 src/utils.py",
+     "role": "tool",
+     "tool_call_id": "call_1"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"command\": \"grep -n '^def \\\\|^class ' src/utils.py\"}",
+        "name": "run_shell"
+       },
+       "id": "call_2",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "12:def parse_date\n40:def format_money\n71:def slugify\n95:class RetryPolicy\n160:def http_get\n210:def http_post\n260:def read_csv_rows\n330:def write_csv_rows\n401:def cache_get\n440:def cache_set\n502:class Timer\n560:def send_email\n640:def render_template",
+     "role": "tool",
+     "tool_call_id": "call_2"
+    },
+    {
+     "content": "Propose the new module layout and then call write_file for the first new module you would create.",
+     "role": "user"
+    }
+   ],
+   "note": "tool-call history",
+   "quick": false,
+   "tools": [
+    {
+     "function": {
+      "description": "Read a text file from the repository.",
+      "name": "read_file",
+      "parameters": {
+       "properties": {
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Overwrite a file with new content.",
+      "name": "write_file",
+      "parameters": {
+       "properties": {
+        "content": {
+         "type": "string"
+        },
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path",
+        "content"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Run a shell command and return output.",
+      "name": "run_shell",
+      "parameters": {
+       "properties": {
+        "command": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "command"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Search the web; returns snippets.",
+      "name": "search",
+      "parameters": {
+       "properties": {
+        "query": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "query"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    }
+   ]
+  },
+  {
+   "category": "longctx",
+   "id": "longctx-01",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Meeting minutes of the Northwind Logistics platform team (fictional), weekly sync, spring term.\n\n## Meeting 1 (week 10)\nAttendees: Farid Weiss, Celina Yilmaz, Leon Zielinski, Maja Urban, Greta Urban\n- Nils Moreau volunteered to pair the new hires with senior engineers regarding the data retention policy. Status: open.\n- Wanda Quinn raised concerns about the plan to pair the new hires with senior engineers regarding the vendor contract renewal. Status: done.\n- Wanda Quinn will investigate whether to pair the new hires with senior engineers regarding the accessibility audit. Status: open.\n- Hugo Yilmaz will investigate whether to drop support for the legacy export format regarding the warehouse scanner rollout. Status: open.\n- Leon Zielinski agreed to renegotiate the SLA regarding the pricing experiment. Status: blocked.\nAction items: Hugo Yilmaz owns 'freeze schema changes until the audit ends'; Wanda Quinn owns 'move the deadline by two weeks'.\n\n## Meeting 2 (week 11)\nAttendees: Greta Urban, Hugo Yilmaz, Wanda Quinn, Farid Weiss, Elif Quinn\n- Leon Zielinski raised concerns about the plan to run a tabletop exercise regarding the warehouse scanner rollout. Status: blocked.\n- Maja Urban raised concerns about the plan to write a runbook for the failover regarding the customer support backlog. Status: waiting for budget.\n- Hugo Yilmaz raised concerns about the plan to write a runbook for the failover regarding the payment gateway migration. Status: open.\n- Farid Weiss raised concerns about the plan to renegotiate the SLA regarding the accessibility audit. Status: open.\n- Greta Urban asked the team to run a tabletop exercise regarding the vendor contract renewal. Status: open.\nAction items: Leon Zielinski owns 'add a load test before launch'; Greta Urban owns 'add a load test before launch'.\n\n## Meeting 3 (week 12)\nAttendees: Wanda Quinn, Leon Zielinski, Farid Weiss, Maja Urban, Nils Moreau\n- Nils Moreau decided not to run a tabletop exercise regarding the search ranking model. Status: open.\n- Greta Urban decided not to drop support for the legacy export format regarding the on-call rotation. Status: in review.\n- Leon Zielinski agreed to freeze schema changes until the audit ends regarding the API rate limits. Status: done.\n- Elif Quinn raised concerns about the plan to reduce the batch size to 500 records regarding the API rate limits. Status: in review.\n- Maja Urban volunteered to freeze schema changes until the audit ends regarding the payment gateway migration. Status: blocked.\n- Celina Yilmaz agreed to run a tabletop exercise regarding the data retention policy. Status: done.\n- Elif Quinn postponed the decision to hire a contractor for the frontend work regarding the mobile app redesign. Status: open.\nAction items: Elif Quinn owns 'add a load test before launch'; Wanda Quinn owns 'drop support for the legacy export format'.\n\n## Meeting 4 (week 13)\nAttendees: Greta Urban, Leon Zielinski, Celina Yilmaz, Nils Moreau, Elif Quinn\n- Celina Yilmaz will investigate whether to add a load test before launch regarding the vendor contract renewal. Status: blocked.\n- Farid Weiss proposed to survey ten pilot customers regarding the on-call rotation. Status: done.\n- Greta Urban asked the team to add alerting on queue depth regarding the payment gateway migration. Status: waiting for budget.\n- Celina Yilmaz decided not to publish the changelog weekly regarding the mobile app redesign. Status: waiting for budget.\n- Wanda Quinn raised concerns about the plan to hire a contractor for the frontend work regarding the customer support backlog. Status: done.\n- Hugo Yilmaz volunteered to pair the new hires with senior engineers regarding the vendor contract renewal. Status: open.\n- Celina Yilmaz raised concerns about the plan to pair the new hires with senior engineers regarding the API rate limits. Status: open.\nAction items: Maja Urban owns 'move the deadline by two weeks'; Nils Moreau owns 'drop support for the legacy export format'.\n\n## Meeting 5 (week 14)\nAttendees: Greta Urban, Celina Yilmaz, Wanda Quinn, Nils Moreau, Farid Weiss\n- Leon Zielinski decided not to write a runbook for the failover regarding the data retention policy. Status: open.\n- Greta Urban will investigate whether to split the rollout into two phases regarding the office move. Status: in review.\n- Nils Moreau will investigate whether to run a tabletop exercise regarding the backup restore drill. Status: waiting for budget.\n- Farid Weiss volunteered to publish the changelog weekly regarding the search ranking model. Status: done.\n- Greta Urban postponed the decision to move the deadline by two weeks regarding the on-call rotation. Status: blocked.\nAction items: Maja Urban owns 'write a runbook for the failover'; Nils Moreau owns 'reduce the batch size to 500 records'.\n\n## Meeting 6 (week 15)\nAttendees: Greta Urban, Farid Weiss, Elif Quinn, Nils Moreau, Wanda Quinn\n- Elif Quinn asked the team to run a tabletop exercise regarding the mobile app redesign. Status: in review.\n- Maja Urban will investigate whether to survey ten pilot customers regarding the data retention policy. Status: blocked.\n- Hugo Yilmaz proposed to write a runbook for the failover regarding the accessibility audit. Status: waiting for budget.\n- Wanda Quinn proposed to publish the changelog weekly regarding the mobile app redesign. Status: done.\n- Nils Moreau raised concerns about the plan to pair the new hires with senior engineers regarding the office move. Status: waiting for budget.\n- Farid Weiss decided not to publish the changelog weekly regarding the mobile app redesign. Status: in review.\nAction items: Maja Urban owns 'split the rollout into two phases'; Hugo Yilmaz owns 'pair the new hires with senior engineers'.\n\n## Meeting 7 (week 16)\nAttendees: Elif Quinn, Wanda Quinn, Greta Urban, Leon Zielinski, Hugo Yilmaz\n- Greta Urban raised concerns about the plan to write a runbook for the failover regarding the search ranking model. Status: waiting for budget.\n- Wanda Quinn volunteered to survey ten pilot customers regarding the accessibility audit. Status: open.\n- Nils Moreau asked the team to survey ten pilot customers regarding the on-call rotation. Status: done.\n- Greta Urban proposed to pair the new hires with senior engineers regarding the API rate limits. Status: open.\n- Celina Yilmaz asked the team to publish the changelog weekly regarding the mobile app redesign. Status: open.\n- Celina Yilmaz decided not to survey ten pilot customers regarding the backup restore drill. Status: waiting for budget.\n- Greta Urban raised concerns about the plan to drop support for the legacy export format regarding the accessibility audit. Status: blocked.\nAction items: Greta Urban owns 'move the deadline by two weeks'; Nils Moreau owns 'renegotiate the SLA'.\n\n## Meeting 8 (week 17)\nAttendees: Maja Urban, Leon Zielinski, Elif Quinn, Wanda Quinn, Celina Yilmaz\n- Greta Urban volunteered to survey ten pilot customers regarding the search ranking model. Status: open.\n- Leon Zielinski asked the team to hire a contractor for the frontend work regarding the data retention policy. Status: blocked.\n- Elif Quinn will investigate whether to reduce the batch size to 500 records regarding the office move. Status: open.\n- Nils Moreau will investigate whether to run a tabletop exercise regarding the Q3 hiring plan. Status: open.\n- Maja Urban raised concerns about the plan to hire a contractor for the frontend work regarding the backup restore drill. Status: done.\nAction items: Hugo Yilmaz owns 'move the deadline by two weeks'; Celina Yilmaz owns 'survey ten pilot customers'.\n\n## Meeting 9 (week 18)\nAttendees: Leon Zielinski, Nils Moreau, Wanda Quinn, Celina Yilmaz, Farid Weiss\n- Celina Yilmaz will investigate whether to renegotiate the SLA regarding the search ranking model. Status: in review.\n- Greta Urban will investigate whether to freeze schema changes until the audit ends regarding the office move. Status: done.\n- Elif Quinn postponed the decision to write a runbook for the failover regarding the backup restore drill. Status: open.\n- Leon Zielinski postponed the decision to hire a contractor for the frontend work regarding the payment gateway migration. Status: waiting for budget.\n- Maja Urban raised concerns about the plan to survey ten pilot customers regarding the vendor contract renewal. Status: waiting for budget.\n- Leon Zielinski agreed to reduce the batch size to 500 records regarding the mobile app redesign. Status: open.\nAction items: Farid Weiss owns 'write a runbook for the failover'; Wanda Quinn owns 'add a load test before launch'.\n\n\n---\n\nSummarise these minutes: list every decision with its owner, every open risk, and what is still blocked. Then draft the agenda for the next meeting.",
+     "role": "user"
+    }
+   ],
+   "note": "generated document 'minutes', 8605 chars",
+   "quick": false
+  },
+  {
+   "category": "multilingual",
+   "id": "multilingual-04",
+   "lang": "it",
+   "messages": [
+    {
+     "content": "Scrivi una lettera di una nonna al nipote che parte per studiare all'estero.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "prose",
+   "id": "prose-07",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a reflective essay on whether boredom helps or hurts creativity, with examples from everyday life.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "code",
+   "id": "code-02",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a Go worker pool that fetches a list of URLs concurrently with a configurable limit and context cancellation, using only the standard library.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "structured",
+   "id": "structured-06",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write an OpenAPI 3.1 YAML document for a to-do API with endpoints to list, create, update and delete tasks.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-11",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "You are a shell agent. Write the exact sequence of commands (with one-line explanations) to find which process is filling /var/log, rotate its log safely and confirm disk space is recovered.",
+     "role": "user"
+    }
+   ],
+   "note": "text-only",
+   "quick": false
+  },
+  {
+   "category": "longctx",
+   "id": "longctx-09",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "diff --git a/scheduler/queue.py b/scheduler/queue.py (fictional project)\n@@ -3,6 +3,8 @@ class JobQueue:\n-        self.retry_0 = 5\n+        self.retry_0 = 8\n+        if self.retry_0 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -13,6 +13,8 @@ class JobQueue:\n-        self.retry_1 = 3\n+        self.retry_1 = 2\n+        if self.retry_1 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -23,6 +23,8 @@ class JobQueue:\n-        self.retry_2 = 1\n+        self.retry_2 = 1\n+        if self.retry_2 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -33,6 +33,8 @@ class JobQueue:\n-        self.retry_3 = 2\n+        self.retry_3 = 2\n+        if self.retry_3 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -43,6 +43,8 @@ class JobQueue:\n-        self.retry_4 = 5\n+        self.retry_4 = 6\n+        if self.retry_4 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -53,6 +53,8 @@ class JobQueue:\n-        self.retry_5 = 1\n+        self.retry_5 = 9\n+        if self.retry_5 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -63,6 +63,8 @@ class JobQueue:\n-        self.retry_6 = 3\n+        self.retry_6 = 5\n+        if self.retry_6 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -73,6 +73,8 @@ class JobQueue:\n-        self.retry_7 = 2\n+        self.retry_7 = 8\n+        if self.retry_7 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -83,6 +83,8 @@ class JobQueue:\n-        self.retry_8 = 2\n+        self.retry_8 = 9\n+        if self.retry_8 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -93,6 +93,8 @@ class JobQueue:\n-        self.retry_9 = 1\n+        self.retry_9 = 4\n+        if self.retry_9 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -103,6 +103,8 @@ class JobQueue:\n-        self.retry_10 = 2\n+        self.retry_10 = 2\n+        if self.retry_10 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -113,6 +113,8 @@ class JobQueue:\n-        self.retry_11 = 2\n+        self.retry_11 = 7\n+        if self.retry_11 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -123,6 +123,8 @@ class JobQueue:\n-        self.retry_12 = 3\n+        self.retry_12 = 2\n+        if self.retry_12 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -133,6 +133,8 @@ class JobQueue:\n-        self.retry_13 = 1\n+        self.retry_13 = 3\n+        if self.retry_13 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -143,6 +143,8 @@ class JobQueue:\n-        self.retry_14 = 2\n+        self.retry_14 = 6\n+        if self.retry_14 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -153,6 +153,8 @@ class JobQueue:\n-        self.retry_15 = 2\n+        self.retry_15 = 4\n+        if self.retry_15 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -163,6 +163,8 @@ class JobQueue:\n-        self.retry_16 = 1\n+        self.retry_16 = 8\n+        if self.retry_16 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -173,6 +173,8 @@ class JobQueue:\n-        self.retry_17 = 4\n+        self.retry_17 = 5\n+        if self.retry_17 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -183,6 +183,8 @@ class JobQueue:\n-        self.retry_18 = 3\n+        self.retry_18 = 3\n+        if self.retry_18 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -193,6 +193,8 @@ class JobQueue:\n-        self.retry_19 = 4\n+        self.retry_19 = 6\n+        if self.retry_19 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -203,6 +203,8 @@ class JobQueue:\n-        self.retry_20 = 4\n+        self.retry_20 = 6\n+        if self.retry_20 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -213,6 +213,8 @@ class JobQueue:\n-        self.retry_21 = 4\n+        self.retry_21 = 6\n+        if self.retry_21 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -223,6 +223,8 @@ class JobQueue:\n-        self.retry_22 = 5\n+        self.retry_22 = 6\n+        if self.retry_22 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -233,6 +233,8 @@ class JobQueue:\n-        self.retry_23 = 4\n+        self.retry_23 = 6\n+        if self.retry_23 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -243,6 +243,8 @@ class JobQueue:\n-        self.retry_24 = 1\n+        self.retry_24 = 9\n+        if self.retry_24 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -253,6 +253,8 @@ class JobQueue:\n-        self.retry_25 = 5\n+        self.retry_25 = 4\n+        if self.retry_25 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -263,6 +263,8 @@ class JobQueue:\n-        self.retry_26 = 4\n+        self.retry_26 = 3\n+        if self.retry_26 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -273,6 +273,8 @@ class JobQueue:\n-        self.retry_27 = 3\n+        self.retry_27 = 1\n+        if self.retry_27 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -283,6 +283,8 @@ class JobQueue:\n-        self.retry_28 = 2\n+        self.retry_28 = 8\n+        if self.retry_28 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -293,6 +293,8 @@ class JobQueue:\n-        self.retry_29 = 3\n+        self.retry_29 = 6\n+        if self.retry_29 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -303,6 +303,8 @@ class JobQueue:\n-        self.retry_30 = 4\n+        self.retry_30 = 8\n+        if self.retry_30 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -313,6 +313,8 @@ class JobQueue:\n-        self.retry_31 = 4\n+        self.retry_31 = 8\n+        if self.retry_31 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -323,6 +323,8 @@ class JobQueue:\n-        self.retry_32 = 2\n+        self.retry_32 = 9\n+        if self.retry_32 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -333,6 +333,8 @@ class JobQueue:\n-        self.retry_33 = 1\n+        self.retry_33 = 2\n+        if self.retry_33 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -343,6 +343,8 @@ class JobQueue:\n-        self.retry_34 = 1\n+        self.retry_34 = 9\n+        if self.retry_34 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n@@ -353,6 +353,8 @@ class JobQueue:\n-        self.retry_35 = 4\n+        self.retry_35 = 5\n+        if self.retry_35 > self.max_retries:\n+            self.log.warning('retry cap hit')\n         self._dirty = True\n\n\n---\n\nReview this diff: explain the intent, the bugs it introduces and how you would restructure the change.",
+     "role": "user"
+    }
+   ],
+   "note": "generated document 'diff', 7617 chars",
+   "quick": true
+  },
+  {
+   "category": "multilingual",
+   "id": "multilingual-07",
+   "lang": "zh",
+   "messages": [
+    {
+     "content": "请写一篇文章，介绍城市屋顶花园的好处以及建设时需要注意的问题。",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "prose",
+   "id": "prose-08",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Explain in plain language how a phone works out its position from satellite signals.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "code",
+   "id": "code-12",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a C++ templated Matrix class with element access, addition, multiplication and stream output.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "structured",
+   "id": "structured-05",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a JSON Schema (draft 2020-12) for an event-ticketing order with buyer, tickets, seats, payment and refund policy.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-08",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Continue this agent transcript with the next three Thought/Action/Observation steps and a final answer.\n\nQuestion: Which of our three warehouses had the highest average delivery delay in May?\nThought: I need the delivery records for May.\nAction: query_db(\"select warehouse, avg(delay_h) from deliveries where month = 5 group by warehouse\")\nObservation: north 6.2, south 3.9, east 6.1",
+     "role": "user"
+    }
+   ],
+   "note": "text-only",
+   "quick": false
+  },
+  {
+   "category": "longctx",
+   "id": "longctx-03",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "\"\"\"inventory_tools.py: helper functions of a fictional warehouse system (internal).\"\"\"\nimport math\nimport datetime as dt\n\ndef dock_picker_score_0(dock, picker, weight=5):\n    \"\"\"Return a heuristic score combining a dock and a picker.\"\"\"\n    if dock is None or picker is None:\n        return 0\n    base = len(str(dock)) * weight + 10\n    if base % 5 == 0:\n        base //= 5\n    return math.log1p(base) + (picker.count('-') if isinstance(picker, str) else 0)\n\ndef order_crate_score_1(order, crate, weight=9):\n    \"\"\"Return a heuristic score combining a order and a crate.\"\"\"\n    if order is None or crate is None:\n        return 0\n    base = len(str(order)) * weight + 9\n    if base % 9 == 0:\n        base //= 9\n    return math.log1p(base) + (crate.count('-') if isinstance(crate, str) else 0)\n\ndef carrier_shelf_score_2(carrier, shelf, weight=8):\n    \"\"\"Return a heuristic score combining a carrier and a shelf.\"\"\"\n    if carrier is None or shelf is None:\n        return 0\n    base = len(str(carrier)) * weight + 33\n    if base % 8 == 0:\n        base //= 8\n    return math.log1p(base) + (shelf.count('-') if isinstance(shelf, str) else 0)\n\ndef pallet_batch_score_3(pallet, batch, weight=5):\n    \"\"\"Return a heuristic score combining a pallet and a batch.\"\"\"\n    if pallet is None or batch is None:\n        return 0\n    base = len(str(pallet)) * weight + 3\n    if base % 5 == 0:\n        base //= 5\n    return math.log1p(base) + (batch.count('-') if isinstance(batch, str) else 0)\n\ndef picker_pallet_score_4(picker, pallet, weight=4):\n    \"\"\"Return a heuristic score combining a picker and a pallet.\"\"\"\n    if picker is None or pallet is None:\n        return 0\n    base = len(str(picker)) * weight + 49\n    if base % 4 == 0:\n        base //= 4\n    return math.log1p(base) + (pallet.count('-') if isinstance(pallet, str) else 0)\n\ndef carrier_order_score_5(carrier, order, weight=6):\n    \"\"\"Return a heuristic score combining a carrier and a order.\"\"\"\n    if carrier is None or order is None:\n        return 0\n    base = len(str(carrier)) * weight + 30\n    if base % 6 == 0:\n        base //= 6\n    return math.log1p(base) + (order.count('-') if isinstance(order, str) else 0)\n\ndef crate_shelf_score_6(crate, shelf, weight=9):\n    \"\"\"Return a heuristic score combining a crate and a shelf.\"\"\"\n    if crate is None or shelf is None:\n        return 0\n    base = len(str(crate)) * weight + 40\n    if base % 9 == 0:\n        base //= 9\n    return math.log1p(base) + (shelf.count('-') if isinstance(shelf, str) else 0)\n\ndef crate_shelf_score_7(crate, shelf, weight=3):\n    \"\"\"Return a heuristic score combining a crate and a shelf.\"\"\"\n    if crate is None or shelf is None:\n        return 0\n    base = len(str(crate)) * weight + 28\n    if base % 3 == 0:\n        base //= 3\n    return math.log1p(base) + (shelf.count('-') if isinstance(shelf, str) else 0)\n\ndef shelf_carrier_score_8(shelf, carrier, weight=8):\n    \"\"\"Return a heuristic score combining a shelf and a carrier.\"\"\"\n    if shelf is None or carrier is None:\n        return 0\n    base = len(str(shelf)) * weight + 21\n    if base % 8 == 0:\n        base //= 8\n    return math.log1p(base) + (carrier.count('-') if isinstance(carrier, str) else 0)\n\ndef carrier_order_score_9(carrier, order, weight=8):\n    \"\"\"Return a heuristic score combining a carrier and a order.\"\"\"\n    if carrier is None or order is None:\n        return 0\n    base = len(str(carrier)) * weight + 5\n    if base % 8 == 0:\n        base //= 8\n    return math.log1p(base) + (order.count('-') if isinstance(order, str) else 0)\n\ndef zone_shelf_score_10(zone, shelf, weight=4):\n    \"\"\"Return a heuristic score combining a zone and a shelf.\"\"\"\n    if zone is None or shelf is None:\n        return 0\n    base = len(str(zone)) * weight + 3\n    if base % 4 == 0:\n        base //= 4\n    return math.log1p(base) + (shelf.count('-') if isinstance(shelf, str) else 0)\n\ndef shelf_carrier_score_11(shelf, carrier, weight=8):\n    \"\"\"Return a heuristic score combining a shelf and a carrier.\"\"\"\n    if shelf is None or carrier is None:\n        return 0\n    base = len(str(shelf)) * weight + 5\n    if base % 8 == 0:\n        base //= 8\n    return math.log1p(base) + (carrier.count('-') if isinstance(carrier, str) else 0)\n\ndef zone_pallet_score_12(zone, pallet, weight=9):\n    \"\"\"Return a heuristic score combining a zone and a pallet.\"\"\"\n    if zone is None or pallet is None:\n        return 0\n    base = len(str(zone)) * weight + 18\n    if base % 9 == 0:\n        base //= 9\n    return math.log1p(base) + (pallet.count('-') if isinstance(pallet, str) else 0)\n\ndef pallet_carrier_score_13(pallet, carrier, weight=5):\n    \"\"\"Return a heuristic score combining a pallet and a carrier.\"\"\"\n    if pallet is None or carrier is None:\n        return 0\n    base = len(str(pallet)) * weight + 12\n    if base % 5 == 0:\n        base //= 5\n    return math.log1p(base) + (carrier.count('-') if isinstance(carrier, str) else 0)\n\ndef shelf_carrier_score_14(shelf, carrier, weight=3):\n    \"\"\"Return a heuristic score combining a shelf and a carrier.\"\"\"\n    if shelf is None or carrier is None:\n        return 0\n    base = len(str(shelf)) * weight + 16\n    if base % 3 == 0:\n        base //= 3\n    return math.log1p(base) + (carrier.count('-') if isinstance(carrier, str) else 0)\n\ndef pallet_batch_score_15(pallet, batch, weight=2):\n    \"\"\"Return a heuristic score combining a pallet and a batch.\"\"\"\n    if pallet is None or batch is None:\n        return 0\n    base = len(str(pallet)) * weight + 15\n    if base % 2 == 0:\n        base //= 2\n    return math.log1p(base) + (batch.count('-') if isinstance(batch, str) else 0)\n\ndef zone_route_score_16(zone, route, weight=8):\n    \"\"\"Return a heuristic score combining a zone and a route.\"\"\"\n    if zone is None or route is None:\n        return 0\n    base = len(str(zone)) * weight + 31\n    if base % 8 == 0:\n        base //= 8\n    return math.log1p(base) + (route.count('-') if isinstance(route, str) else 0)\n\ndef order_crate_score_17(order, crate, weight=5):\n    \"\"\"Return a heuristic score combining a order and a crate.\"\"\"\n    if order is None or crate is None:\n        return 0\n    base = len(str(order)) * weight + 26\n    if base % 5 == 0:\n        base //= 5\n    return math.log1p(base) + (crate.count('-') if isinstance(crate, str) else 0)\n\ndef dock_pallet_score_18(dock, pallet, weight=8):\n    \"\"\"Return a heuristic score combining a dock and a pallet.\"\"\"\n    if dock is None or pallet is None:\n        return 0\n    base = len(str(dock)) * weight + 10\n    if base % 8 == 0:\n        base //= 8\n    return math.log1p(base) + (pallet.count('-') if isinstance(pallet, str) else 0)\n\ndef pallet_shelf_score_19(pallet, shelf, weight=6):\n    \"\"\"Return a heuristic score combining a pallet and a shelf.\"\"\"\n    if pallet is None or shelf is None:\n        return 0\n    base = len(str(pallet)) * weight + 37\n    if base % 6 == 0:\n        base //= 6\n    return math.log1p(base) + (shelf.count('-') if isinstance(shelf, str) else 0)\n\ndef route_picker_score_20(route, picker, weight=2):\n    \"\"\"Return a heuristic score combining a route and a picker.\"\"\"\n    if route is None or picker is None:\n        return 0\n    base = len(str(route)) * weight + 36\n    if base % 2 == 0:\n        base //= 2\n    return math.log1p(base) + (picker.count('-') if isinstance(picker, str) else 0)\n\ndef picker_route_score_21(picker, route, weight=2):\n    \"\"\"Return a heuristic score combining a picker and a route.\"\"\"\n    if picker is None or route is None:\n        return 0\n    base = len(str(picker)) * weight + 8\n    if base % 2 == 0:\n        base //= 2\n    return math.log1p(base) + (route.count('-') if isinstance(route, str) else 0)\n\ndef days_until(date_str):\n    d = dt.date.fromisoformat(date_str)\n    return (d - dt.date.today()).days\n\n\n---\n\nReview this module: explain what is wrong with its design, then propose a cleaner API and rewrite three of the functions.",
+     "role": "user"
+    }
+   ],
+   "note": "generated document 'code', 7737 chars",
+   "quick": false
+  },
+  {
+   "category": "multilingual",
+   "id": "multilingual-01",
+   "lang": "de",
+   "messages": [
+    {
+     "content": "Erkläre ausführlich, wie eine Solaranlage auf dem Dach funktioniert und worauf man beim Kauf achten sollte.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "prose",
+   "id": "prose-09",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write the opening scene of a science-fiction novel set aboard a slow cargo ship travelling between two moons.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "code",
+   "id": "code-07",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Given tables users(id, signup_date) and events(user_id, ts, kind), write SQL using window functions that computes monthly signup cohorts and their retention for the following six months. Explain the query.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "structured",
+   "id": "structured-03",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Create a markdown table comparing 10 programming languages: typing discipline, memory management, typical use and first release year.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-05",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "You are a careful coding and research agent. Use the tools when needed. When you have enough information, give a complete, well-structured answer.",
+     "role": "system"
+    },
+    {
+     "content": "Summarise what is known about the new municipal composting programme for a neighbourhood newsletter.",
+     "role": "user"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"query\": \"municipal composting programme pilot results\"}",
+        "name": "search"
+       },
+       "id": "call_1",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "[1] Pilot in 3 districts collected 410 t of food waste in 6 months; contamination 4.2%. [2] Residents get a 7-litre kitchen caddy and weekly pickup. [3] Compost sold to allotments at cost. [4] Council budget note: programme cost 1.1 M, expected landfill savings 0.6 M per year.",
+     "role": "tool",
+     "tool_call_id": "call_1"
+    },
+    {
+     "content": "Write the newsletter piece (about 300 words) citing the sources as [n].",
+     "role": "user"
+    }
+   ],
+   "note": "tool-call history",
+   "quick": false,
+   "tools": [
+    {
+     "function": {
+      "description": "Read a text file from the repository.",
+      "name": "read_file",
+      "parameters": {
+       "properties": {
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Overwrite a file with new content.",
+      "name": "write_file",
+      "parameters": {
+       "properties": {
+        "content": {
+         "type": "string"
+        },
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path",
+        "content"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Run a shell command and return output.",
+      "name": "run_shell",
+      "parameters": {
+       "properties": {
+        "command": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "command"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Search the web; returns snippets.",
+      "name": "search",
+      "parameters": {
+       "properties": {
+        "query": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "query"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    }
+   ]
+  },
+  {
+   "category": "longctx",
+   "id": "longctx-06",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Product requirements (fictional): 'Harbor' shared calendar for small clinics. Version 0.9 draft.\n\nREQ-001 (patient, priority P1): The system shall support recurring appointments across all locations. Acceptance: reviewed by the privacy officer.\nREQ-002 (receptionist, priority P1): The system shall support double-booking prevention across all locations. Acceptance: demonstrated to two pilot clinics.\nREQ-003 (patient, priority P0): The system shall support patient reminders by SMS across all locations. Acceptance: covered by load tests at 10x normal volume.\nREQ-004 (receptionist, priority P0): The system shall support room and equipment booking for up to 50 staff members. Acceptance: verified by an end-to-end test.\nREQ-005 (receptionist, priority P0): The system shall support waiting list without data loss on reconnect. Acceptance: reviewed by the privacy officer.\nREQ-006 (clinician, priority P1): The system shall support cancellation policy within 2 seconds. Acceptance: verified by an end-to-end test.\nREQ-007 (receptionist, priority P2): The system shall support staff shift view for up to 50 staff members. Acceptance: reviewed by the privacy officer.\nREQ-008 (admin, priority P2): The system shall support audit log for every action. Acceptance: covered by load tests at 10x normal volume.\nREQ-009 (clinician, priority P1): The system shall support export to CSV with a 24-hour notice. Acceptance: covered by load tests at 10x normal volume.\nREQ-010 (receptionist, priority P1): The system shall support multi-clinic accounts across all locations. Acceptance: reviewed by the privacy officer.\nREQ-011 (patient, priority P1): The system shall support time-zone handling without data loss on reconnect. Acceptance: covered by load tests at 10x normal volume.\nREQ-012 (clinician, priority P0): The system shall support offline mode without data loss on reconnect. Acceptance: reviewed by the privacy officer.\nREQ-013 (receptionist, priority P2): The system shall support role-based permissions without data loss on reconnect. Acceptance: demonstrated to two pilot clinics.\nREQ-014 (patient, priority P2): The system shall support recurring appointments with a 24-hour notice. Acceptance: demonstrated to two pilot clinics.\nREQ-015 (clinician, priority P2): The system shall support double-booking prevention for up to 50 staff members. Acceptance: reviewed by the privacy officer.\nREQ-016 (clinician, priority P0): The system shall support patient reminders by SMS within 2 seconds. Acceptance: demonstrated to two pilot clinics.\nREQ-017 (patient, priority P0): The system shall support room and equipment booking within 2 seconds. Acceptance: reviewed by the privacy officer.\nREQ-018 (patient, priority P0): The system shall support waiting list without data loss on reconnect. Acceptance: demonstrated to two pilot clinics.\nREQ-019 (admin, priority P0): The system shall support cancellation policy without data loss on reconnect. Acceptance: reviewed by the privacy officer.\nREQ-020 (patient, priority P1): The system shall support staff shift view for every action. Acceptance: verified by an end-to-end test.\nREQ-021 (patient, priority P1): The system shall support audit log across all locations. Acceptance: demonstrated to two pilot clinics.\nREQ-022 (clinician, priority P1): The system shall support export to CSV without data loss on reconnect. Acceptance: covered by load tests at 10x normal volume.\nREQ-023 (admin, priority P2): The system shall support multi-clinic accounts within 2 seconds. Acceptance: reviewed by the privacy officer.\nREQ-024 (admin, priority P2): The system shall support time-zone handling across all locations. Acceptance: reviewed by the privacy officer.\nREQ-025 (admin, priority P2): The system shall support offline mode without data loss on reconnect. Acceptance: verified by an end-to-end test.\nREQ-026 (patient, priority P1): The system shall support role-based permissions for up to 50 staff members. Acceptance: covered by load tests at 10x normal volume.\n\n\n---\n\nTurn these requirements into a test plan: group them, list concrete test cases and call out requirements that are ambiguous or conflicting.",
+     "role": "user"
+    }
+   ],
+   "note": "generated document 'spec', 4014 chars",
+   "quick": false
+  },
+  {
+   "category": "multilingual",
+   "id": "multilingual-02",
+   "lang": "es",
+   "messages": [
+    {
+     "content": "Escribe un cuento sobre una panadera que descubre que su horno puede hablar.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "prose",
+   "id": "prose-05",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a letter from a grandmother to her grandson on the morning he starts his first job.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "code",
+   "id": "code-05",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a C function that reverses the order of words in a string in place, plus a main() that tests edge cases.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "structured",
+   "id": "structured-12",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write SQL CREATE TABLE plus 20 INSERT statements for a fictional hardware store inventory.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-09",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a unified diff that adds input validation and a clear error message to this function, then a commit message:\n\ndef set_volume(level):\n    device.volume = level\n    return device.volume",
+     "role": "user"
+    }
+   ],
+   "note": "text-only",
+   "quick": true
+  },
+  {
+   "category": "longctx",
+   "id": "longctx-02",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Production log excerpt from a fictional web shop, one day, UTC.\n\n08:00:01 INFO  orders    /api/cart     status=200 latency_ms=146 retrying once\n08:00:07 INFO  auth      /api/invoice  status=200 latency_ms=150 cache hit\n08:00:08 INFO  notifier  /health       status=200 latency_ms=171 token refreshed\n08:00:17 INFO  notifier  /api/orders   status=200 latency_ms=8 token refreshed\n08:00:20 INFO  gateway   /api/orders   status=200 latency_ms=115 token refreshed\n08:00:29 INFO  inventory /api/cart     status=200 latency_ms=82 cache miss\n08:00:30 INFO  orders    /api/orders   status=200 latency_ms=159 cache hit\n08:00:36 INFO  orders    /api/cart     status=404 latency_ms=141 retrying once\n08:00:37 INFO  gateway   /api/orders   status=200 latency_ms=115 cache hit\n08:00:46 INFO  orders    /api/cart     status=200 latency_ms=161 request ok\n08:00:52 INFO  inventory /api/stock    status=200 latency_ms=175 queued notification\n08:00:55 INFO  orders    /api/login    status=200 latency_ms=125 slow query 210ms\n08:00:57 INFO  gateway   /api/cart     status=200 latency_ms=33 retrying once\n08:01:06 INFO  billing   /api/login    status=200 latency_ms=21 token refreshed\n08:01:12 INFO  inventory /api/login    status=200 latency_ms=123 cache miss\n08:01:19 WARN  billing   /health       status=200 latency_ms=142 cache miss\n08:01:21 INFO  billing   /api/orders   status=200 latency_ms=132 cache hit\n08:01:26 INFO  auth      /api/orders   status=200 latency_ms=20 request ok\n08:01:28 INFO  notifier  /api/cart     status=200 latency_ms=174 request ok\n08:01:36 WARN  inventory /api/orders   status=200 latency_ms=151 queued notification\n08:01:37 INFO  orders    /api/orders   status=200 latency_ms=139 token refreshed\n08:01:39 INFO  inventory /health       status=200 latency_ms=55 slow query 210ms\n08:01:42 INFO  orders    /health       status=404 latency_ms=89 cache miss\n08:01:47 INFO  inventory /api/login    status=200 latency_ms=127 request ok\n08:01:54 INFO  notifier  /api/stock    status=200 latency_ms=11 cache hit\n08:02:02 INFO  auth      /api/cart     status=200 latency_ms=180 queued notification\n08:02:11 INFO  auth      /api/invoice  status=200 latency_ms=144 queued notification\n08:02:19 WARN  orders    /api/invoice  status=200 latency_ms=44 cache hit\n08:02:24 INFO  gateway   /api/orders   status=200 latency_ms=103 slow query 210ms\n08:02:33 INFO  inventory /api/login    status=200 latency_ms=158 cache miss\n08:02:42 INFO  gateway   /health       status=200 latency_ms=133 slow query 210ms\n08:02:45 INFO  inventory /api/cart     status=200 latency_ms=156 cache hit\n08:02:54 INFO  billing   /api/orders   status=404 latency_ms=94 retrying once\n08:02:55 INFO  auth      /api/stock    status=200 latency_ms=55 queued notification\n08:03:01 INFO  notifier  /health       status=200 latency_ms=34 token refreshed\n08:03:08 INFO  auth      /api/stock    status=200 latency_ms=20 request ok\n08:03:16 INFO  gateway   /api/login    status=200 latency_ms=15 request ok\n08:03:25 INFO  notifier  /api/invoice  status=200 latency_ms=92 cache hit\n08:03:34 INFO  billing   /api/cart     status=200 latency_ms=12 slow query 210ms\n08:03:36 INFO  inventory /api/login    status=200 latency_ms=47 slow query 210ms\n08:03:38 WARN  inventory /api/stock    status=200 latency_ms=78 token refreshed\n08:03:43 INFO  notifier  /api/cart     status=200 latency_ms=164 request ok\n08:03:46 INFO  auth      /health       status=200 latency_ms=30 queued notification\n08:03:55 INFO  auth      /api/cart     status=200 latency_ms=134 request ok\n08:04:04 INFO  gateway   /api/invoice  status=200 latency_ms=25 cache hit\n08:04:05 INFO  inventory /api/orders   status=200 latency_ms=166 retrying once\n08:04:14 INFO  auth      /api/stock    status=200 latency_ms=54 token refreshed\n08:04:23 INFO  billing   /api/invoice  status=200 latency_ms=179 cache hit\n08:04:26 INFO  gateway   /api/invoice  status=200 latency_ms=141 queued notification\n08:04:29 INFO  billing   /health       status=200 latency_ms=76 queued notification\n08:04:32 INFO  billing   /api/orders   status=200 latency_ms=141 request ok\n08:04:34 INFO  orders    /api/orders   status=200 latency_ms=123 queued notification\n08:04:37 INFO  notifier  /health       status=404 latency_ms=170 slow query 210ms\n08:04:45 INFO  inventory /health       status=200 latency_ms=142 cache hit\n08:04:52 INFO  notifier  /api/stock    status=200 latency_ms=155 retrying once\n08:04:59 INFO  auth      /api/stock    status=200 latency_ms=78 cache hit\n08:05:00 INFO  auth      /api/login    status=200 latency_ms=118 token refreshed\n08:05:09 INFO  gateway   /health       status=200 latency_ms=53 request ok\n08:05:13 INFO  auth      /api/invoice  status=200 latency_ms=5 retrying once\n08:05:21 INFO  auth      /api/stock    status=200 latency_ms=28 cache hit\n08:05:30 INFO  auth      /api/cart     status=200 latency_ms=22 request ok\n08:05:35 INFO  orders    /api/invoice  status=200 latency_ms=11 cache miss\n08:05:42 INFO  orders    /api/orders   status=404 latency_ms=70 cache miss\n08:05:50 INFO  gateway   /api/stock    status=200 latency_ms=116 slow query 210ms\n08:05:58 INFO  inventory /api/invoice  status=200 latency_ms=154 cache hit\n08:06:00 INFO  orders    /api/orders   status=200 latency_ms=79 retrying once\n08:06:04 INFO  orders    /api/cart     status=200 latency_ms=180 cache miss\n08:06:06 WARN  auth      /health       status=200 latency_ms=21 slow query 210ms\n08:06:09 INFO  auth      /api/login    status=200 latency_ms=110 slow query 210ms\n08:06:10 INFO  auth      /api/invoice  status=200 latency_ms=136 cache hit\n08:06:13 INFO  notifier  /api/stock    status=200 latency_ms=118 slow query 210ms\n08:06:20 WARN  inventory /api/orders   status=200 latency_ms=115 request ok\n08:06:27 WARN  billing   /api/invoice  status=200 latency_ms=20 request ok\n08:06:36 INFO  notifier  /api/login    status=200 latency_ms=127 slow query 210ms\n08:06:41 INFO  notifier  /api/orders   status=200 latency_ms=166 request ok\n08:06:45 INFO  auth      /api/login    status=200 latency_ms=59 cache miss\n08:06:47 INFO  auth      /api/cart     status=200 latency_ms=164 request ok\n08:06:55 INFO  inventory /api/stock    status=200 latency_ms=166 cache hit\n08:07:04 INFO  auth      /api/orders   status=200 latency_ms=95 token refreshed\n08:07:09 INFO  notifier  /api/login    status=200 latency_ms=164 token refreshed\n08:07:17 INFO  gateway   /api/invoice  status=404 latency_ms=105 slow query 210ms\n08:07:20 INFO  gateway   /api/invoice  status=200 latency_ms=106 queued notification\n08:07:29 INFO  orders    /api/cart     status=200 latency_ms=36 token refreshed\n08:07:33 INFO  orders    /api/login    status=200 latency_ms=179 token refreshed\n08:07:35 INFO  billing   /api/invoice  status=200 latency_ms=132 token refreshed\n08:07:39 INFO  auth      /api/stock    status=200 latency_ms=58 slow query 210ms\n08:07:43 INFO  notifier  /api/invoice  status=200 latency_ms=93 slow query 210ms\n08:07:49 INFO  auth      /api/invoice  status=200 latency_ms=4 cache hit\n08:07:55 INFO  notifier  /health       status=200 latency_ms=139 slow query 210ms\n08:08:03 INFO  auth      /api/login    status=200 latency_ms=97 slow query 210ms\n08:08:10 INFO  orders    /api/cart     status=200 latency_ms=85 queued notification\n08:08:13 INFO  inventory /api/cart     status=200 latency_ms=113 slow query 210ms\n08:08:20 INFO  notifier  /api/invoice  status=200 latency_ms=14 cache hit\n08:08:24 INFO  notifier  /api/stock    status=200 latency_ms=134 queued notification\n08:08:25 WARN  notifier  /health       status=200 latency_ms=110 request ok\n08:08:30 ERROR billing   /api/login    status=503 latency_ms=2856 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:08:34 ERROR billing   /api/cart     status=503 latency_ms=2231 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:08:38 ERROR billing   /api/invoice  status=503 latency_ms=1546 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:08:42 ERROR billing   /api/invoice  status=503 latency_ms=1235 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:08:43 ERROR billing   /api/login    status=503 latency_ms=2641 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:08:45 ERROR billing   /api/login    status=503 latency_ms=3411 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:08:53 INFO  orders    /api/invoice  status=200 latency_ms=35 request ok\n08:08:58 INFO  gateway   /api/orders   status=200 latency_ms=138 request ok\n08:09:02 ERROR billing   /api/stock    status=503 latency_ms=968 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:06 ERROR billing   /health       status=503 latency_ms=2829 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:09 INFO  inventory /health       status=200 latency_ms=115 retrying once\n08:09:11 INFO  inventory /api/login    status=200 latency_ms=122 token refreshed\n08:09:17 ERROR billing   /api/cart     status=503 latency_ms=1162 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:18 ERROR billing   /api/cart     status=503 latency_ms=3078 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:25 ERROR billing   /api/invoice  status=503 latency_ms=2836 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:29 ERROR billing   /api/stock    status=503 latency_ms=2915 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:33 ERROR billing   /api/invoice  status=503 latency_ms=1036 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:36 INFO  gateway   /api/stock    status=200 latency_ms=35 request ok\n08:09:40 ERROR billing   /health       status=503 latency_ms=3352 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:43 ERROR billing   /api/cart     status=503 latency_ms=2443 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:49 ERROR billing   /health       status=503 latency_ms=3141 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:09:57 ERROR billing   /api/cart     status=503 latency_ms=3197 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:10:00 ERROR billing   /api/stock    status=503 latency_ms=3591 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:10:05 ERROR billing   /health       status=503 latency_ms=1537 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:10:11 ERROR billing   /api/orders   status=503 latency_ms=1295 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:10:20 ERROR billing   /api/stock    status=503 latency_ms=935 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:10:21 ERROR billing   /api/orders   status=503 latency_ms=2728 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:10:23 INFO  notifier  /api/cart     status=404 latency_ms=5 request ok\n08:10:28 ERROR billing   /api/stock    status=503 latency_ms=1127 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:10:29 ERROR billing   /api/stock    status=503 latency_ms=2320 upstream timeout talking to ledger-db (pool exhausted, 50/50 in use)\n08:10:37 INFO  notifier  /health       status=200 latency_ms=122 token refreshed\n08:10:46 INFO  notifier  /api/login    status=200 latency_ms=34 slow query 210ms\n08:10:49 INFO  notifier  /api/login    status=200 latency_ms=152 cache miss\n08:10:56 INFO  auth      /api/stock    status=200 latency_ms=111 token refreshed\n08:10:58 INFO  orders    /health       status=404 latency_ms=80 slow query 210ms\n08:11:06 INFO  orders    /api/invoice  status=200 latency_ms=75 cache miss\n08:11:14 INFO  auth      /api/cart     status=200 latency_ms=124 cache hit\n08:11:19 WARN  orders    /api/orders   status=200 latency_ms=21 retrying once\n08:11:26 INFO  notifier  /api/stock    status=200 latency_ms=22 token refreshed\n08:11:35 INFO  billing   /health       status=200 latency_ms=18 slow query 210ms\n08:11:44 INFO  auth      /api/invoice  status=200 latency_ms=91 slow query 210ms\n08:11:49 INFO  gateway   /api/orders   status=200 latency_ms=39 slow query 210ms\n08:11:53 INFO  auth      /api/invoice  status=200 latency_ms=155 retrying once\n08:12:02 INFO  notifier  /api/login    status=200 latency_ms=146 queued notification\n08:12:06 INFO  orders    /api/cart     status=404 latency_ms=63 retrying once\n08:12:10 INFO  inventory /api/orders   status=200 latency_ms=106 cache hit\n08:12:19 INFO  gateway   /api/orders   status=200 latency_ms=57 queued notification\n08:12:21 INFO  billing   /api/invoice  status=200 latency_ms=96 queued notification\n08:12:25 INFO  gateway   /api/login    status=200 latency_ms=154 queued notification\n08:12:31 INFO  orders    /api/cart     status=200 latency_ms=57 cache miss\n08:12:38 INFO  inventory /api/login    status=200 latency_ms=178 queued notification\n08:12:41 INFO  auth      /api/invoice  status=404 latency_ms=104 token refreshed\n08:12:49 INFO  billing   /api/cart     status=404 latency_ms=77 request ok\n08:12:52 INFO  notifier  /api/cart     status=404 latency_ms=19 cache hit\n08:12:56 INFO  auth      /api/login    status=200 latency_ms=61 slow query 210ms\n08:13:01 WARN  notifier  /api/orders   status=200 latency_ms=74 request ok\n08:13:03 INFO  orders    /api/login    status=200 latency_ms=100 queued notification\n08:13:08 INFO  gateway   /api/orders   status=200 latency_ms=142 queued notification\n08:13:12 INFO  inventory /api/cart     status=200 latency_ms=99 queued notification\n08:13:15 INFO  notifier  /health       status=200 latency_ms=172 queued notification\n08:13:18 INFO  billing   /api/login    status=200 latency_ms=12 slow query 210ms\n08:13:27 INFO  orders    /api/cart     status=200 latency_ms=169 cache miss\n08:13:28 INFO  notifier  /health       status=200 latency_ms=45 slow query 210ms\n08:13:29 INFO  notifier  /api/orders   status=200 latency_ms=179 cache miss\n08:13:35 INFO  auth      /api/login    status=200 latency_ms=87 queued notification\n08:13:39 WARN  inventory /api/login    status=200 latency_ms=36 request ok\n08:13:46 INFO  orders    /api/invoice  status=200 latency_ms=57 slow query 210ms\n08:13:48 INFO  gateway   /api/login    status=200 latency_ms=45 token refreshed\n08:13:50 INFO  notifier  /health       status=200 latency_ms=118 retrying once\n08:13:58 INFO  billing   /health       status=200 latency_ms=104 request ok\n08:14:07 INFO  notifier  /api/orders   status=200 latency_ms=30 cache miss\n08:14:15 INFO  gateway   /api/invoice  status=200 latency_ms=8 cache miss\n08:14:17 INFO  auth      /health       status=200 latency_ms=18 request ok\n08:14:25 INFO  auth      /api/login    status=200 latency_ms=77 queued notification\n08:14:28 INFO  auth      /health       status=200 latency_ms=80 retrying once\n\n\n---\n\nWrite an incident report for this log: timeline, impact, likely root cause, and five follow-up actions.",
+     "role": "user"
+    }
+   ],
+   "note": "generated document 'log', 14812 chars",
+   "quick": true
+  },
+  {
+   "category": "multilingual",
+   "id": "multilingual-08",
+   "lang": "ja",
+   "messages": [
+    {
+     "content": "海辺の小さな町で灯台を守る猫についての短い物語を書いてください。",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "prose",
+   "id": "prose-13",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a heartfelt farewell speech for a neighbourhood bakery that is closing after forty years.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "code",
+   "id": "code-04",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write type-safe debounce and throttle utilities in TypeScript with generics, and show usage examples.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "structured",
+   "id": "structured-01",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Produce a JSON array of 15 fictional books with fields id, title, author, year, genre, pages and rating.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-03",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "You are a careful coding and research agent. Use the tools when needed. When you have enough information, give a complete, well-structured answer.",
+     "role": "system"
+    },
+    {
+     "content": "Our nightly sales job looks wrong. Analyse what the query returned and tell me what is going on.",
+     "role": "user"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"command\": \"psql -c \\\"select day, orders, revenue, refunds from daily_sales order by day desc limit 10\\\"\"}",
+        "name": "run_shell"
+       },
+       "id": "call_1",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "    day     | orders | revenue  | refunds\n------------+--------+----------+---------\n 2026-03-10 |      0 |     0.00 |       0\n 2026-03-09 |    412 | 18803.40 |       7\n 2026-03-08 |    398 | 17999.10 |       5\n 2026-03-07 |    455 | 21420.00 |       6\n 2026-03-06 |    401 | 18120.75 |      41\n 2026-03-05 |    389 | 17410.20 |       4\n 2026-03-04 |    402 | 18044.90 |       6\n 2026-03-03 |    377 | 16980.55 |       5\n 2026-03-02 |    395 | 17702.35 |       3\n 2026-03-01 |    420 | 19310.80 |       8\n(10 rows)",
+     "role": "tool",
+     "tool_call_id": "call_1"
+    },
+    {
+     "content": "Write a short analysis with hypotheses for each anomaly and the next commands you would run.",
+     "role": "user"
+    }
+   ],
+   "note": "tool-call history",
+   "quick": false,
+   "tools": [
+    {
+     "function": {
+      "description": "Read a text file from the repository.",
+      "name": "read_file",
+      "parameters": {
+       "properties": {
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Overwrite a file with new content.",
+      "name": "write_file",
+      "parameters": {
+       "properties": {
+        "content": {
+         "type": "string"
+        },
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path",
+        "content"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Run a shell command and return output.",
+      "name": "run_shell",
+      "parameters": {
+       "properties": {
+        "command": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "command"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Search the web; returns snippets.",
+      "name": "search",
+      "parameters": {
+       "properties": {
+        "query": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "query"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    }
+   ]
+  },
+  {
+   "category": "longctx",
+   "id": "longctx-08",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "# nginx-like config of a fictional service, plus app settings (excerpt)\nserver_00.listen = 80\nserver_00.tls = off\nserver_00.timeout_s = 30\nserver_01.listen = 8080\nserver_01.tls = off\nserver_01.timeout_s = 30\nserver_02.listen = 443\nserver_02.tls = off\nserver_02.timeout_s = 5\nserver_03.listen = 443\nserver_03.tls = off\nserver_03.timeout_s = 5\nserver_04.listen = 8443\nserver_04.tls = off\nserver_04.timeout_s = 60\nserver_05.listen = 80\nserver_05.tls = on\nserver_05.timeout_s = 600\nserver_06.listen = 443\nserver_06.tls = on\nserver_06.timeout_s = 5\nserver_07.listen = 80\nserver_07.tls = off\nserver_07.timeout_s = 5\nserver_08.listen = 8080\nserver_08.tls = off\nserver_08.timeout_s = 600\nserver_09.listen = 8080\nserver_09.tls = on\nserver_09.timeout_s = 30\nserver_10.listen = 80\nserver_10.tls = on\nserver_10.timeout_s = 60\nserver_11.listen = 80\nserver_11.tls = on\nserver_11.timeout_s = 5\nserver_12.listen = 80\nserver_12.tls = off\nserver_12.timeout_s = 600\nserver_13.listen = 80\nserver_13.tls = on\nserver_13.timeout_s = 600\nserver_14.listen = 8080\nserver_14.tls = on\nserver_14.timeout_s = 60\nserver_15.listen = 80\nserver_15.tls = on\nserver_15.timeout_s = 60\nserver_16.listen = 8443\nserver_16.tls = on\nserver_16.timeout_s = 30\nserver_17.listen = 80\nserver_17.tls = off\nserver_17.timeout_s = 600\nserver_18.listen = 8443\nserver_18.tls = off\nserver_18.timeout_s = 30\nserver_19.listen = 8443\nserver_19.tls = on\nserver_19.timeout_s = 5\nserver_20.listen = 443\nserver_20.tls = on\nserver_20.timeout_s = 60\nserver_21.listen = 8080\nserver_21.tls = on\nserver_21.timeout_s = 5\nserver_22.listen = 443\nserver_22.tls = off\nserver_22.timeout_s = 30\nserver_23.listen = 8080\nserver_23.tls = off\nserver_23.timeout_s = 600\nserver_24.listen = 443\nserver_24.tls = off\nserver_24.timeout_s = 60\nserver_25.listen = 80\nserver_25.tls = off\nserver_25.timeout_s = 60\nserver_26.listen = 80\nserver_26.tls = on\nserver_26.timeout_s = 30\nserver_27.listen = 8080\nserver_27.tls = off\nserver_27.timeout_s = 30\nserver_28.listen = 8080\nserver_28.tls = on\nserver_28.timeout_s = 5\nserver_29.listen = 8443\nserver_29.tls = on\nserver_29.timeout_s = 600\nserver_30.listen = 8080\nserver_30.tls = on\nserver_30.timeout_s = 30\nserver_31.listen = 80\nserver_31.tls = on\nserver_31.timeout_s = 30\nserver_32.listen = 80\nserver_32.tls = off\nserver_32.timeout_s = 600\nserver_33.listen = 8080\nserver_33.tls = on\nserver_33.timeout_s = 60\nserver_34.listen = 8080\nserver_34.tls = off\nserver_34.timeout_s = 600\nserver_35.listen = 443\nserver_35.tls = on\nserver_35.timeout_s = 60\nserver_36.listen = 80\nserver_36.tls = off\nserver_36.timeout_s = 30\nserver_37.listen = 8080\nserver_37.tls = on\nserver_37.timeout_s = 600\nserver_38.listen = 8443\nserver_38.tls = on\nserver_38.timeout_s = 60\nserver_39.listen = 80\nserver_39.tls = on\nserver_39.timeout_s = 600\nserver_40.listen = 8080\nserver_40.tls = off\nserver_40.timeout_s = 600\nserver_41.listen = 443\nserver_41.tls = on\nserver_41.timeout_s = 30\nserver_42.listen = 8443\nserver_42.tls = on\nserver_42.timeout_s = 600\nserver_43.listen = 443\nserver_43.tls = on\nserver_43.timeout_s = 5\nserver_44.listen = 80\nserver_44.tls = off\nserver_44.timeout_s = 600\nserver_45.listen = 443\nserver_45.tls = off\nserver_45.timeout_s = 600\nserver_46.listen = 8080\nserver_46.tls = on\nserver_46.timeout_s = 600\nserver_47.listen = 443\nserver_47.tls = on\nserver_47.timeout_s = 30\nserver_48.listen = 8080\nserver_48.tls = on\nserver_48.timeout_s = 30\nserver_49.listen = 80\nserver_49.tls = on\nserver_49.timeout_s = 5\nserver_50.listen = 443\nserver_50.tls = off\nserver_50.timeout_s = 5\nserver_51.listen = 443\nserver_51.tls = on\nserver_51.timeout_s = 30\nserver_52.listen = 8080\nserver_52.tls = off\nserver_52.timeout_s = 600\nserver_53.listen = 80\nserver_53.tls = on\nserver_53.timeout_s = 30\nserver_54.listen = 80\nserver_54.tls = off\nserver_54.timeout_s = 60\nserver_55.listen = 443\nserver_55.tls = on\nserver_55.timeout_s = 5\nserver_56.listen = 8080\nserver_56.tls = on\nserver_56.timeout_s = 60\nserver_57.listen = 80\nserver_57.tls = on\nserver_57.timeout_s = 5\nserver_58.listen = 8080\nserver_58.tls = on\nserver_58.timeout_s = 30\nserver_59.listen = 8443\nserver_59.tls = on\nserver_59.timeout_s = 5\n\n\n---\n\nAudit this configuration: list risky settings, inconsistencies and a corrected version of the problematic parts.",
+     "role": "user"
+    }
+   ],
+   "note": "generated document 'config', 4125 chars",
+   "quick": false
+  },
+  {
+   "category": "multilingual",
+   "id": "multilingual-05",
+   "lang": "pt",
+   "messages": [
+    {
+     "content": "Explique de forma simples como funcionam as marés e por que existem duas marés altas por dia.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "prose",
+   "id": "prose-01",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a short story about an elderly clockmaker who is asked to repair a clock that runs backwards.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "code",
+   "id": "code-08",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a thread-safe Java class for transferring money between bank accounts that cannot deadlock, and explain why it is safe.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "structured",
+   "id": "structured-08",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a TOML configuration for a multiplayer game server with sections network, world, players, moderation and logging.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-10",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Produce the JSON arguments for a sequence of function calls that books a meeting room for 6 people next Tuesday 10:00-11:30, orders coffee for them and sends calendar invites. Define each function's signature first.",
+     "role": "user"
+    }
+   ],
+   "note": "text-only",
+   "quick": false
+  },
+  {
+   "category": "longctx",
+   "id": "longctx-05",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Support chat transcript (fictional). Customer: Zofia Petrescu. Agent: Nils Moreau.\n\n[14:00] Zofia: That did not help, unfortunately.\n[14:02] Nils: I have applied a credit of 15 EUR.\n[14:04] Zofia: OK, I will try that now.\n[14:06] Nils: I have applied a credit of 15 EUR.\n[14:08] Zofia: I work from home, so this is urgent.\n[14:10] Nils: I can see two errors on your line from last night.\n[14:12] Zofia: I work from home, so this is urgent.\n[14:14] Nils: Could you unplug it for 30 seconds?\n[14:16] Zofia: Also, the app says the account is locked.\n[14:18] Nils: Could you unplug it for 30 seconds?\n[14:20] Zofia: Also, the app says the account is locked.\n[14:22] Nils: Could you unplug it for 30 seconds?\n[14:24] Zofia: Also, the invoice shows a double charge.\n[14:26] Nils: Please confirm your address for the visit.\n[14:28] Zofia: Can you check the line from your side?\n[14:30] Nils: I can see two errors on your line from last night.\n[14:32] Zofia: Also, the router keeps dropping Wi-Fi every evening.\n[14:34] Nils: I will open a ticket with our field team.\n[14:36] Zofia: Can you check the line from your side?\n[14:38] Nils: I have applied a credit of 15 EUR.\n[14:40] Zofia: That did not help, unfortunately.\n[14:42] Nils: Please confirm your address for the visit.\n[14:44] Zofia: I already restarted it twice.\n[14:46] Nils: Thank you, let me check that for you.\n[14:48] Zofia: Can you check the line from your side?\n[14:50] Nils: I can see two errors on your line from last night.\n[14:52] Zofia: Also, the speed test shows 20 Mbit instead of 300.\n[14:54] Nils: I have applied a credit of 15 EUR.\n[14:56] Zofia: OK, I will try that now.\n[14:58] Nils: I will open a ticket with our field team.\n[15:00] Zofia: Can you check the line from your side?\n[15:02] Nils: I have applied a credit of 15 EUR.\n[15:04] Zofia: Can you check the line from your side?\n[15:06] Nils: Could you unplug it for 30 seconds?\n[15:08] Zofia: Can you check the line from your side?\n[15:10] Nils: Could you unplug it for 30 seconds?\n[15:12] Zofia: Can you check the line from your side?\n[15:14] Nils: Could you unplug it for 30 seconds?\n[15:16] Zofia: I already restarted it twice.\n[15:18] Nils: Thank you, let me check that for you.\n\n\n---\n\nWrite a summary of this support case for the next agent, then the reply the agent should send to the customer now.",
+     "role": "user"
+    }
+   ],
+   "note": "generated document 'chat', 2208 chars",
+   "quick": false
+  },
+  {
+   "category": "multilingual",
+   "id": "multilingual-06",
+   "lang": "uk",
+   "messages": [
+    {
+     "content": "Напиши розповідь про маленьку станцію метро, на якій щоночі зупиняється порожній потяг.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "prose",
+   "id": "prose-06",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Explain how mechanical refrigeration changed city life, food markets and diets during the twentieth century.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "code",
+   "id": "code-01",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a Python tokenizer and recursive-descent parser that evaluates arithmetic expressions with + - * / and parentheses. Include unit tests.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "structured",
+   "id": "structured-10",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Output 20 JSON-lines log entries for a fictional web shop backend, with ts, level, service, route, status, latency_ms and message.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-07",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "You are an agent with tools search(query), open(url), and calc(expr). A user asks: 'Is it cheaper to heat my 90 m2 flat with a heat pump or with gas this winter?' Write your plan as a numbered list of tool calls in JSON (one object per line), then explain what you would do with each result.",
+     "role": "user"
+    }
+   ],
+   "note": "text-only",
+   "quick": true
+  },
+  {
+   "category": "longctx",
+   "id": "longctx-04",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "region,month,product,units,unit_price,returns\nwest,2026-02,heater,204,49.90,14\nwest,2026-06,fan,33,39.00,0\nwest,2026-05,heater,251,19.99,9\neast,2026-06,heater,859,19.99,29\nnorth,2026-06,blender,137,15.25,8\nnorth,2026-03,toaster,220,19.99,17\nsouth,2026-01,lamp,217,39.00,12\nsouth,2026-04,blender,213,24.50,6\neast,2026-06,fan,121,24.50,2\neast,2026-04,toaster,32,24.50,2\neast,2026-03,fan,346,24.50,17\nwest,2026-02,fan,69,19.99,5\nwest,2026-03,toaster,277,15.25,7\nnorth,2026-04,fan,241,39.00,12\nsouth,2026-06,heater,21,15.25,1\nnorth,2026-06,kettle,194,24.50,7\nwest,2026-06,heater,226,49.90,17\nnorth,2026-05,toaster,248,39.00,13\nwest,2026-03,fan,115,19.99,9\neast,2026-01,heater,761,19.99,46\nnorth,2026-01,fan,47,15.25,1\nsouth,2026-01,fan,318,39.00,16\nnorth,2026-03,fan,189,39.00,1\nnorth,2026-05,fan,164,39.00,2\nwest,2026-04,toaster,385,39.00,5\nsouth,2026-04,fan,71,19.99,4\neast,2026-03,blender,137,19.99,0\nsouth,2026-03,fan,366,24.50,22\nsouth,2026-02,lamp,395,39.00,5\nsouth,2026-01,toaster,141,39.00,8\nwest,2026-01,kettle,126,15.25,1\nwest,2026-01,blender,50,24.50,3\nsouth,2026-02,toaster,293,39.00,12\nwest,2026-02,lamp,185,24.50,13\nnorth,2026-06,toaster,42,49.90,3\nnorth,2026-06,toaster,179,39.00,14\nsouth,2026-06,blender,56,24.50,1\nnorth,2026-01,toaster,96,15.25,6\neast,2026-02,fan,250,15.25,10\neast,2026-03,blender,307,49.90,24\nwest,2026-06,blender,376,19.99,24\neast,2026-06,kettle,313,15.25,0\neast,2026-06,blender,220,49.90,14\nwest,2026-06,kettle,265,15.25,17\nwest,2026-06,fan,225,49.90,0\nwest,2026-01,blender,320,15.25,4\nwest,2026-04,toaster,331,15.25,27\nsouth,2026-01,fan,181,39.00,4\neast,2026-03,heater,804,19.99,34\nwest,2026-01,heater,57,15.25,3\nsouth,2026-03,blender,197,24.50,1\nwest,2026-06,lamp,299,19.99,15\nwest,2026-06,kettle,236,39.00,6\neast,2026-03,blender,221,19.99,11\nwest,2026-04,heater,344,19.99,24\neast,2026-05,lamp,34,39.00,0\neast,2026-06,heater,819,39.00,1\nsouth,2026-03,toaster,88,24.50,3\nnorth,2026-03,kettle,194,39.00,16\nwest,2026-04,toaster,145,39.00,2\nwest,2026-05,heater,336,15.25,3\nwest,2026-06,heater,269,19.99,4\nsouth,2026-04,toaster,125,15.25,4\nwest,2026-04,heater,299,49.90,21\nsouth,2026-05,toaster,24,19.99,1\neast,2026-04,toaster,38,15.25,1\nnorth,2026-01,lamp,158,15.25,4\nnorth,2026-04,lamp,290,39.00,11\nnorth,2026-04,heater,51,49.90,4\nwest,2026-04,heater,289,15.25,1\neast,2026-04,lamp,40,15.25,1\neast,2026-03,blender,132,49.90,10\nnorth,2026-03,toaster,221,39.00,13\nsouth,2026-01,fan,172,19.99,1\nwest,2026-05,heater,338,24.50,14\nnorth,2026-01,toaster,27,49.90,2\nnorth,2026-01,blender,290,24.50,0\nwest,2026-02,blender,194,49.90,5\nnorth,2026-01,heater,288,39.00,12\nnorth,2026-01,toaster,103,19.99,8\neast,2026-03,blender,21,49.90,1\nsouth,2026-02,blender,57,15.25,4\neast,2026-06,toaster,285,39.00,13\neast,2026-06,toaster,226,39.00,3\nwest,2026-06,kettle,261,15.25,14\nnorth,2026-06,kettle,312,49.90,10\nsouth,2026-06,kettle,198,49.90,9\nwest,2026-05,lamp,365,39.00,4\neast,2026-02,kettle,253,24.50,10\nsouth,2026-01,blender,181,19.99,5\nsouth,2026-06,fan,106,19.99,7\neast,2026-03,blender,54,24.50,4\nnorth,2026-03,toaster,351,15.25,20\nnorth,2026-06,toaster,33,15.25,2\nwest,2026-01,lamp,210,49.90,12\neast,2026-06,toaster,153,39.00,9\neast,2026-05,lamp,198,15.25,13\nsouth,2026-06,blender,342,39.00,11\nwest,2026-01,blender,46,24.50,2\nwest,2026-05,fan,358,39.00,25\nsouth,2026-01,blender,323,15.25,8\nsouth,2026-02,toaster,195,19.99,12\nnorth,2026-03,heater,234,24.50,2\neast,2026-02,blender,163,15.25,10\nsouth,2026-03,toaster,301,24.50,21\nsouth,2026-03,fan,308,49.90,5\nsouth,2026-05,toaster,310,39.00,12\nsouth,2026-02,fan,173,39.00,14\neast,2026-02,blender,258,19.99,4\nnorth,2026-05,lamp,85,24.50,7\nnorth,2026-02,kettle,80,15.25,3\nnorth,2026-03,heater,336,24.50,5\nwest,2026-05,kettle,115,24.50,6\neast,2026-06,heater,626,39.00,22\nsouth,2026-06,blender,144,49.90,8\neast,2026-01,heater,713,15.25,45\nwest,2026-06,lamp,133,49.90,10\neast,2026-06,fan,211,39.00,12\nwest,2026-04,kettle,275,39.00,22\neast,2026-06,fan,328,24.50,20\nsouth,2026-01,lamp,350,15.25,15\nnorth,2026-03,heater,376,15.25,29\neast,2026-01,blender,388,15.25,15\nwest,2026-05,blender,299,19.99,22\nnorth,2026-01,kettle,134,24.50,0\nsouth,2026-05,kettle,358,15.25,24\nsouth,2026-02,blender,189,15.25,0\neast,2026-03,heater,646,49.90,15\nnorth,2026-01,lamp,315,24.50,9\nwest,2026-06,toaster,221,15.25,15\nsouth,2026-02,kettle,27,19.99,0\nsouth,2026-02,heater,91,19.99,1\nnorth,2026-02,fan,21,19.99,1\nwest,2026-05,toaster,224,15.25,9\nwest,2026-04,kettle,383,19.99,26\nnorth,2026-02,heater,179,49.90,12\nwest,2026-04,heater,364,15.25,18\neast,2026-06,lamp,47,24.50,1\nsouth,2026-04,toaster,245,24.50,5\nsouth,2026-01,toaster,320,39.00,19\nwest,2026-01,kettle,309,19.99,7\nwest,2026-04,toaster,183,24.50,4\neast,2026-05,blender,36,24.50,2\nwest,2026-01,lamp,107,15.25,2\neast,2026-01,kettle,397,15.25,5\nwest,2026-01,kettle,358,24.50,14\nnorth,2026-01,fan,72,39.00,4\neast,2026-06,fan,34,49.90,2\nnorth,2026-05,lamp,141,39.00,4\neast,2026-05,fan,130,49.90,5\n\n\n---\n\nAnalyse this sales data: trends by region and product, anything anomalous, and three recommendations. Show the key numbers you rely on.",
+     "role": "user"
+    }
+   ],
+   "note": "generated document 'sales', 4892 chars",
+   "quick": true
+  },
+  {
+   "category": "prose",
+   "id": "prose-03",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a persuasive essay arguing that small towns should keep their public libraries open in the evenings.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "code",
+   "id": "code-11",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Implement a minimal virtual-DOM diff and patch function in plain JavaScript, with a small example.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "structured",
+   "id": "structured-07",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write an XML product catalogue with 8 fictional garden tools, each with sku, name, price, stock and dimensions.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-04",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "You are a careful coding and research agent. Use the tools when needed. When you have enough information, give a complete, well-structured answer.",
+     "role": "system"
+    },
+    {
+     "content": "Why does my deployment keep restarting?",
+     "role": "user"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"command\": \"kubectl describe pod ledger-api-7d9f8-x2k4q\"}",
+        "name": "run_shell"
+       },
+       "id": "call_1",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "State: Waiting (CrashLoopBackOff)\nLast State: Terminated, Reason: OOMKilled, Exit Code: 137\nLimits: memory 256Mi\nRequests: memory 128Mi\nRestart Count: 14\nEvents: Back-off restarting failed container",
+     "role": "tool",
+     "tool_call_id": "call_1"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"command\": \"kubectl logs ledger-api-7d9f8-x2k4q --previous | tail -5\"}",
+        "name": "run_shell"
+       },
+       "id": "call_2",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "INFO loading ledger snapshot (2.1 GB) into cache\nINFO cache warm 41%\nINFO cache warm 77%\nWARN gc pause 1800ms\nKilled",
+     "role": "tool",
+     "tool_call_id": "call_2"
+    },
+    {
+     "content": "Diagnose the problem and propose two fixes with the exact YAML or code changes.",
+     "role": "user"
+    }
+   ],
+   "note": "tool-call history",
+   "quick": false,
+   "tools": [
+    {
+     "function": {
+      "description": "Read a text file from the repository.",
+      "name": "read_file",
+      "parameters": {
+       "properties": {
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Overwrite a file with new content.",
+      "name": "write_file",
+      "parameters": {
+       "properties": {
+        "content": {
+         "type": "string"
+        },
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path",
+        "content"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Run a shell command and return output.",
+      "name": "run_shell",
+      "parameters": {
+       "properties": {
+        "command": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "command"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Search the web; returns snippets.",
+      "name": "search",
+      "parameters": {
+       "properties": {
+        "query": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "query"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    }
+   ]
+  },
+  {
+   "category": "prose",
+   "id": "prose-18",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write an opening speech for a school science fair that encourages students who did not win prizes.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "code",
+   "id": "code-10",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Implement an asyncio token-bucket rate limiter in Python and demonstrate it with a simulated API client.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "structured",
+   "id": "structured-02",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write Kubernetes-style YAML for a fictional service 'ledger-api': a Deployment with 3 replicas, a Service and a ConfigMap with five settings.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-12",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Act as a code-review bot. Review this change and output findings as a JSON list of objects with file, line, severity and comment:\n\n--- a/cart.py\n+++ b/cart.py\n@@ -10,6 +10,9 @@\n def add(self, item, qty):\n+    if qty == 0:\n+        return\n     self.items[item] = self.items.get(item, 0) + qty\n+    self.total += item.price * qty\n",
+     "role": "user"
+    }
+   ],
+   "note": "text-only",
+   "quick": false
+  },
+  {
+   "category": "prose",
+   "id": "prose-10",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Compare remote work and office work for a ten-person design studio, and recommend an arrangement.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "code",
+   "id": "code-14",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "This binary search sometimes loops forever. Find the bug, fix it and add tests:\n\ndef find(xs, x):\n    lo, hi = 0, len(xs) - 1\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if xs[mid] < x:\n            lo = mid\n        else:\n            hi = mid\n    return lo if xs and xs[lo] == x else -1",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "structured",
+   "id": "structured-04",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Output CSV with 25 rows of fictional weather station readings: station_id, timestamp, temp_c, humidity, wind_kmh, pressure_hpa.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "agentic",
+   "id": "agentic-02",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "You are a careful coding and research agent. Use the tools when needed. When you have enough information, give a complete, well-structured answer.",
+     "role": "system"
+    },
+    {
+     "content": "Plan a three-day walking trip in the hills near my town for next weekend and tell me what to pack.",
+     "role": "user"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"query\": \"weekend forecast hill district\"}",
+        "name": "search"
+       },
+       "id": "call_1",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "Fri: 14C, light rain in the morning, clearing later. Sat: 17C, sunny, wind 20 km/h. Sun: 12C, showers from noon, gusts 45 km/h on ridges.",
+     "role": "tool",
+     "tool_call_id": "call_1"
+    },
+    {
+     "content": "",
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "function": {
+        "arguments": "{\"query\": \"hill district walking routes huts opening\"}",
+        "name": "search"
+       },
+       "id": "call_2",
+       "type": "function"
+      }
+     ]
+    },
+    {
+     "content": "Ridge Loop 18 km (exposed), Lake Path 11 km (sheltered, two cafes), Old Quarry Trail 9 km. Mountain hut 'Pod Sosnami' open Fri-Sun, booking required; spring at km 6 of Ridge Loop dry this year.",
+     "role": "tool",
+     "tool_call_id": "call_2"
+    },
+    {
+     "content": "Give me a day-by-day plan with distances, timing and a packing list.",
+     "role": "user"
+    }
+   ],
+   "note": "tool-call history",
+   "quick": true,
+   "tools": [
+    {
+     "function": {
+      "description": "Read a text file from the repository.",
+      "name": "read_file",
+      "parameters": {
+       "properties": {
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Overwrite a file with new content.",
+      "name": "write_file",
+      "parameters": {
+       "properties": {
+        "content": {
+         "type": "string"
+        },
+        "path": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "path",
+        "content"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Run a shell command and return output.",
+      "name": "run_shell",
+      "parameters": {
+       "properties": {
+        "command": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "command"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    },
+    {
+     "function": {
+      "description": "Search the web; returns snippets.",
+      "name": "search",
+      "parameters": {
+       "properties": {
+        "query": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "query"
+       ],
+       "type": "object"
+      }
+     },
+     "type": "function"
+    }
+   ]
+  },
+  {
+   "category": "prose",
+   "id": "prose-12",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Explain plate tectonics to a general audience and why earthquakes cluster along certain lines.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "code",
+   "id": "code-13",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Model a traffic-light controller in Kotlin using a sealed class state machine, including a pedestrian button.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "prose",
+   "id": "prose-14",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a travel guide entry for a fictional mountain town during the quiet off-season.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "code",
+   "id": "code-03",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Implement a generic fixed-capacity ring buffer in Rust with push, pop, an iterator implementation and unit tests.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "prose",
+   "id": "prose-17",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a fable about a river that wanted to flow uphill, and the lesson it learned.",
+     "role": "user"
+    }
+   ],
+   "quick": true
+  },
+  {
+   "category": "prose",
+   "id": "prose-16",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Write a dialogue between a sceptic and an enthusiast about keeping bees on city rooftops.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "prose",
+   "id": "prose-02",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Explain to a curious fourteen-year-old how a refrigerator moves heat out of a cold box, step by step.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  },
+  {
+   "category": "prose",
+   "id": "prose-15",
+   "lang": "en",
+   "messages": [
+    {
+     "content": "Explain the difference between weather and climate, using three concrete examples.",
+     "role": "user"
+    }
+   ],
+   "quick": false
+  }
+ ],
+ "version": "speedbench-v1"
+}

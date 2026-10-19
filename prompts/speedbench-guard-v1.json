@@ -1,0 +1,434 @@
+{
+ "description": "Short questions with deterministic graders: a guard against gross output breakage of a speed lever (run at T=0 in each arm). Not a quality benchmark.",
+ "items": [
+  {
+   "grader": {
+    "type": "number",
+    "value": 391
+   },
+   "id": "arith-01",
+   "messages": [
+    {
+     "content": "What is 17 multiplied by 23?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 6912
+   },
+   "id": "arith-02",
+   "messages": [
+    {
+     "content": "What is 1234 + 5678?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 12
+   },
+   "id": "arith-03",
+   "messages": [
+    {
+     "content": "What is 144 divided by 12?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 1024
+   },
+   "id": "arith-04",
+   "messages": [
+    {
+     "content": "What is 2 to the power of 10?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 36
+   },
+   "id": "arith-05",
+   "messages": [
+    {
+     "content": "What is 15 percent of 240?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 40
+   },
+   "id": "arith-06",
+   "messages": [
+    {
+     "content": "Compute (8 + 7) * 3 - 5.\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 150
+   },
+   "id": "arith-07",
+   "messages": [
+    {
+     "content": "A train travels at 60 km/h for 2.5 hours. How many kilometres does it travel?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 8
+   },
+   "id": "arith-08",
+   "messages": [
+    {
+     "content": "Pens cost 2 euros for a pack of 3. How many euros do 12 pens cost?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 210
+   },
+   "id": "arith-09",
+   "messages": [
+    {
+     "content": "How many minutes are there in 3.5 hours?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 55
+   },
+   "id": "arith-10",
+   "messages": [
+    {
+     "content": "What is the sum of the integers from 1 to 10?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 2
+   },
+   "id": "arith-11",
+   "messages": [
+    {
+     "content": "What is the remainder when 100 is divided by 7?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "tokyo"
+    ],
+    "type": "text"
+   },
+   "id": "fact-01",
+   "messages": [
+    {
+     "content": "What is the capital city of Japan?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "au"
+    ],
+    "case": false,
+    "type": "text"
+   },
+   "id": "fact-02",
+   "messages": [
+    {
+     "content": "What is the chemical symbol for gold?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 366
+   },
+   "id": "fact-03",
+   "messages": [
+    {
+     "content": "How many days does a leap year have?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "jupiter"
+    ],
+    "type": "text"
+   },
+   "id": "fact-04",
+   "messages": [
+    {
+     "content": "What is the largest planet in the Solar System?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "jane austen",
+     "austen"
+    ],
+    "type": "text"
+   },
+   "id": "fact-05",
+   "messages": [
+    {
+     "content": "Who wrote the novel 'Pride and Prejudice'?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 100
+   },
+   "id": "fact-06",
+   "messages": [
+    {
+     "content": "At sea level, at how many degrees Celsius does water boil?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 6
+   },
+   "id": "fact-07",
+   "messages": [
+    {
+     "content": "How many sides does a hexagon have?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "carbon dioxide",
+     "co2"
+    ],
+    "type": "text"
+   },
+   "id": "fact-08",
+   "messages": [
+    {
+     "content": "Which gas do plants take up from the air for photosynthesis?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "json",
+    "value": [
+     1,
+     3,
+     5,
+     7,
+     9
+    ]
+   },
+   "id": "format-01",
+   "messages": [
+    {
+     "content": "Sort these numbers in ascending order and reply with a JSON array: 5, 3, 9, 1, 7\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "json",
+    "value": {
+     "age": 36,
+     "name": "Ada"
+    }
+   },
+   "id": "format-02",
+   "messages": [
+    {
+     "content": "Reply with a JSON object with the key \"name\" set to \"Ada\" and the key \"age\" set to 36.\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "HELLO WORLD"
+    ],
+    "case": true,
+    "type": "text"
+   },
+   "id": "format-03",
+   "messages": [
+    {
+     "content": "Write the phrase 'hello world' in upper case.\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "blue green red"
+    ],
+    "type": "text"
+   },
+   "id": "format-04",
+   "messages": [
+    {
+     "content": "Reverse the order of these words: red green blue\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "1010"
+    ],
+    "type": "text"
+   },
+   "id": "format-05",
+   "messages": [
+    {
+     "content": "What is the number 10 written in binary?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 14
+   },
+   "id": "format-06",
+   "messages": [
+    {
+     "content": "What is the Roman numeral XIV as an Arabic number?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "2024-02-29"
+    ],
+    "type": "text"
+   },
+   "id": "format-07",
+   "messages": [
+    {
+     "content": "What date comes one day after 2024-02-28? Use the format YYYY-MM-DD.\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 5
+   },
+   "id": "code-01",
+   "messages": [
+    {
+     "content": "In Python, what does len(\"speed\") return?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "number",
+    "value": 10
+   },
+   "id": "code-02",
+   "messages": [
+    {
+     "content": "In Python, what is the value of sum(range(5))?\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "type": "json",
+    "value": [
+     "a",
+     "b",
+     "c"
+    ]
+   },
+   "id": "code-03",
+   "messages": [
+    {
+     "content": "In Python, what does \"a,b,c\".split(\",\") return? Reply with a JSON array.\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  },
+  {
+   "grader": {
+    "accept": [
+     "danke",
+     "vielen dank"
+    ],
+    "type": "text"
+   },
+   "id": "lang-01",
+   "messages": [
+    {
+     "content": "Translate 'thank you' into German.\n\nReply with only the final answer, nothing else.",
+     "role": "user"
+    }
+   ]
+  }
+ ],
+ "version": "speedbench-guard-v1"
+}
